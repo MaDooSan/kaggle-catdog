@@ -1,0 +1,12 @@
+#!/bin/bash -l                                                                                                                                 
+#PBS -l nodes=1:ppn=24:gpus=2,walltime=8:00:00                                                                                                
+#PBS -q k40                                                                                                                                    
+#PBS -m abe                                                                                                                                    
+#PBS -M tenna031@umn.edu                                                                                                                      
+
+module load caffe/1.0
+source activate caffe_mocha
+
+cd /panfs/roc/groups/14/sbedros/tenna031/mo/kaggle-catdog/caffe_models
+
+caffe.bin train --solver solver_1.prototxt 2>&1 | tee caffe_train.log  
