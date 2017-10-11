@@ -11,8 +11,8 @@ source activate caffe1.0_lite
 ```
 alias init_caffe='echo "Loading modules..."; module load caffe/1.0; module list; echo "Loading conda environment..."; source activate caffe1.0_lite'
 ```
-*Now you just need to call `init_caffe` from the terminal.*
-*Also, if you plan to install new packages, you can use a clone environment:*
+*Now you just need to call `init_caffe` from the terminal.
+Also, if you plan to install new packages, you can use a clone environment:*
 `conda create --clone <source env> --name <clone env>`
 
 2. Make a directory for the dataset
@@ -63,9 +63,8 @@ source activate <caffe env>
 caffe.bin train --solver solver_1.prototxt 2>&1 | tee model_1_train.log                                                       
 ```
 *Notes: We use "tee" to redirect output to a log file (as shown above)
-If for some reason, training quits (maybe you exceeded walltime limit or something else failed), you can use the snapshots (saved as .solverstate files) to resume training*; just replace the train command in the PBS script with the following
-
+If for some reason, training quits (maybe you exceeded walltime limit or something else failed), you can use the snapshots (saved as .solverstate files) to resume training; just replace the previous train command in the PBS script with the following:*
 `caffe.bin train --solver ../caffe_models/caffe_model_1/solver_1.prototxt --snapshot <solverstate_file>`
 
-9. To submit the job, use:
+9. To submit the job to the queue, use:
 `qsub <PBS_script>`
