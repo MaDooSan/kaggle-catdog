@@ -26,10 +26,10 @@ cd input
 cd code
 python create_lmdb.py
 ```
-Note: This code will:
+*Note: This code will:
 - run histogram-equalization on all training images, resize all training images to a 227x227 format.
 - divide the training data into 2 sets: One for training (5/6 of images) and the other for validation (1/6 of images)
-- store the training and validation in 2 LMDB databases (train and val)
+- store the training and validation in 2 LMDB databases (train and val)*
 
 5. Compute image-mean (used to make training data zero-mean)
 
@@ -44,11 +44,24 @@ Note: This code will:
 
 *Note: Change solver parameters as needed; by default the solver computes the accuracy of the model using the validation set every 1000 iterations; the optimization process will run for a maximum of 20000 iterations, and will take a snapshot of the trained model every 5000 iterations.*
 
-8. Train!
+8. Time to train! Since MSI's Caffe is compiled for the GPU, running the training code will result in a CUDA error. You need to create a PBS script that will execute your code on Mesabi's k40 GPU cluster. To do this, edit the included PBS script (train_catdog.pbs):
+```
+#!/bin/bash -l                                                                                                                                 
+#PBS -l nodes=1:ppn=24:gpus=2,walltime=8:00:00                                                                                                
+#PBS -q k40                                                                                                                                    
+#PBS -m abe                                                                                                                                    
+#PBS -M <email_address>                                                                                                                       
+cd <full_path_to_caffe_model_1_directory>
 
-`caffe.bin train --solver ../caffe_models/caffe_model_1/solver_1.prototxt 2>&1 | tee ../caffe_models/caffe_model_1/model_1_train.log`
+module load caffe/1.0
+source activate <caffe env>
 
+caffe.bin train --solver solver_1.prototxt 2>&1 | tee model_1_train.log                                                       
+```
 *Notes: We use "tee" to redirect output to a log file (as shown above)
-If for some reason, training quits (maybe you exceeded walltime limit or something else failed), you can use the snapshots (saved as .solverstate files) to resume training*
+If for some reason, training quits (maybe you exceeded walltime limit or something else failed), you can use the snapshots (saved as .solverstate files) to resume training*; just replace the train command in the PBS script with the following
 
 `caffe.bin train --solver ../caffe_models/caffe_model_1/solver_1.prototxt --snapshot <solverstate_file>`
+
+9. To submit the job, use:
+`qsub <PBS_script>`
