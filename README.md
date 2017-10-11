@@ -54,19 +54,20 @@ python create_lmdb.py
 #PBS -l nodes=1:ppn=24:gpus=2,walltime=8:00:00                                                                                                
 #PBS -q k40                                                                                                                                    
 #PBS -m abe                                                                                                                                    
-#PBS -M <email_address>                                                                                                                       
-cd <full_path_to_caffe_model_1_directory>
+#PBS -M <email_address>                                                                                                       
 
 module load caffe/1.0
 source activate <caffe env>
 
-caffe.bin train --solver solver_1.prototxt 2>&1 | tee model_1_train.log                                                       
+cd <full_path_to_caffe_model_directory>
+
+caffe.bin train --solver solver.prototxt 2>&1 | tee caffe_train.log                                                       
 ```
 *Notes: We use "tee" to redirect output to a log file (as shown above).
 
 If for some reason, training quits (maybe you exceeded walltime limit or something else failed), you can use the snapshots (saved as .solverstate files) to resume training; just replace the previous train command in the PBS script with the following:*
 ```
-caffe.bin train --solver ../caffe_models/caffe_model_1/solver_1.prototxt --snapshot <solverstate_file>
+caffe.bin train --solver caffe_models/solver.prototxt --snapshot <solverstate_file>
 ```
 9. To submit the job to the queue, use:
 ```
