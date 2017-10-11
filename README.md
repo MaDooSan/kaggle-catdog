@@ -25,7 +25,7 @@ cd input
 
 `ln -s <target_dir> <link_name>`
 
-4. Create LMDB creatdataset:
+4. Edit the pathnames to the datasets in `create_lmdb` and create LMDB creatdataset:
 ```
 cd code
 python create_lmdb.py
