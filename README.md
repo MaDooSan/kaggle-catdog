@@ -7,15 +7,12 @@
 module load caffe/1.0
 source activate caffe1.0_lite
 ```
-*Note: If you're lazy like me, you could also add an alias to your `bash.rc` file to call the above set of commands*:
-
+*Note: If you're lazy like me, you could also add an alias to your `bash.rc` file to call the above set of commands:*
 ```
 alias init_caffe='echo "Loading modules..."; module load caffe/1.0; module list; echo "Loading conda environment..."; source activate caffe1.0_lite'
 ```
-*Now you just need to call `init_caffe` from the terminal.
-
-*If you plan to install new packages, you can use a clone environment:
-
+*Now you just need to call `init_caffe` from the terminal.*
+*Also, if you plan to install new packages, you can use a clone environment:*
 `conda create --clone <source env> --name <clone env>`
 
 2. Make a directory for the dataset
@@ -24,7 +21,7 @@ cd kaggle-catdog
 mkdir input
 cd input
 ```
-3. Download dataset from [Kaggle Competition Page](https://www.kaggle.com/c/dogs-vs-cats/data) and extract; if your data is stored elsewhere (like a shared folder), use symbolic links:
+3. Download dataset from the [Kaggle Cats vs. Dogs Competition Page](https://www.kaggle.com/c/dogs-vs-cats/data) and extract; if your data is stored elsewhere (like a shared folder), use symbolic links:
 
 `ln -s <target_dir> <link_name>`
 
@@ -33,7 +30,7 @@ cd input
 cd code
 python create_lmdb.py
 ```
-*Note: This code will:
+*Note: This code will:*
 - run histogram-equalization on all training images, resize all training images to a 227x227 format.
 - divide the training data into 2 sets: One for training (5/6 of images) and the other for validation (1/6 of images)
 - store the training and validation in 2 LMDB databases (train and val)*
