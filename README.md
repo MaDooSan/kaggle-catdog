@@ -62,7 +62,8 @@ source activate <caffe env>
 
 caffe.bin train --solver solver_1.prototxt 2>&1 | tee model_1_train.log                                                       
 ```
-*Notes: We use "tee" to redirect output to a log file (as shown above)
+*Notes: We use "tee" to redirect output to a log file (as shown above).
+
 If for some reason, training quits (maybe you exceeded walltime limit or something else failed), you can use the snapshots (saved as .solverstate files) to resume training; just replace the previous train command in the PBS script with the following:*
 ```
 caffe.bin train --solver ../caffe_models/caffe_model_1/solver_1.prototxt --snapshot <solverstate_file>
